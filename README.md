@@ -1,2 +1,2 @@
 # TF-GenderClassification
-implement of paper Metric-Promoted Siamese Network for Gender Classification
+Implement of the paper Metric-Promoted Siamese Network for Gender Classification.
