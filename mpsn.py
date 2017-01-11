@@ -380,7 +380,7 @@ if __name__ == '__main__':
     process(coord=coord,
         max_iter=100000,
         snapshot_iter=2000,
-        snapshot_path='model_lambda2',
+        snapshot_path='model_mpsn',
         display=100,
         continuous_model=None)
 
