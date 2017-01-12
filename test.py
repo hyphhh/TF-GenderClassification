@@ -8,7 +8,7 @@ def test(model_path, batch_size, test_interval):
     is_train = tf.placeholder(tf.bool)
 
     batch_test = mpsn.inputs(
-        list_path='data1/test_list.txt',
+        list_path='data/test_list.txt',
         image_dir='../adience_250/',
         re_size=250,
         crop_size=233,
