@@ -91,7 +91,7 @@ def contrastive_loss(y, y_, y_p, y_p_):
     # distance
     d = tf.sqrt(tf.reduce_sum(tf.square(y - y_p),1))
 
-    return tf.reduce_mean(label*tf.square(d) + (1-label)*tf.square(tf.maximum(0., 2-d)))
+    return tf.reduce_mean(label*tf.square(d) + (1-label)*tf.square(tf.maximum(0., 1-d)))
 
 
 def process(coord, max_iter, snapshot_iter, snapshot_path, display, continuous_model=None):
@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
     batch = distorted_inputs(
         list_path='data/train_list.txt',
-        image_dir='../adience_250/',
+        image_dir='adience/',
         re_size=250,
         crop_size=233,
         batch_size=32,
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     cross_entropy_p = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(y_p, y_p_))
     metric_loss = contrastive_loss(fcs, y_, fcs_p, y_p_)
 
-    loss = cross_entropy + cross_entropy_p + 0.1*metric_loss
+    loss = cross_entropy + cross_entropy_p + 3*metric_loss
 
     # train step
     global_step = tf.Variable(0, tf.int32)

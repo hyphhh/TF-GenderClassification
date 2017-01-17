@@ -4,12 +4,11 @@ import mpsn
 
 def test(model_path, batch_size, test_interval):
 
-    # with tf.Graph().as_default(), tf.device('/cpu:0'):
     is_train = tf.placeholder(tf.bool)
 
     batch_test = mpsn.inputs(
         list_path='data/test_list.txt',
-        image_dir='../adience_250/',
+        image_dir='adience_250/',
         re_size=250,
         crop_size=233,
         batch_size=batch_size,
@@ -26,25 +25,24 @@ def test(model_path, batch_size, test_interval):
     config = tf.ConfigProto()
     config.gpu_options.allow_growth=True
     sess = tf.Session(config=config)
-    with tf.device("/cpu:0"):
-        sess.run(tf.initialize_all_variables())
-        coord = tf.train.Coordinator()
-        threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+    sess.run(tf.initialize_all_variables())
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
-        saver.restore(sess, model_path)
+    saver.restore(sess, model_path)
 
-        sum_acc=0
-        for i in range(test_interval):
-            print 'iter '+str(i)
-            sum_acc += sess.run(accuracy, feed_dict={is_train: False})
-        print sum_acc/test_interval
+    sum_acc=0
+    for i in range(test_interval):
+        print 'iter '+str(i)
+        sum_acc += sess.run(accuracy, feed_dict={is_train: False})
+    print sum_acc/test_interval
 
-        coord.request_stop()
-        coord.join(threads)
+    coord.request_stop()
+    coord.join(threads)
 
     sess.close()
 
 
 if __name__ == '__main__':
 
-    test(model_path='model_mpsn/model_iter_10000', batch_size=28, test_interval=103)
+    test(model_path='model_mpsn/model_iter_60000', batch_size=28, test_interval=103)
